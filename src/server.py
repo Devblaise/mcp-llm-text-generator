@@ -19,7 +19,7 @@ def generate_project_text(
     from sparse project metadata using a single LLM call.
     """
     
-    logging.info(f"Received request for project: {request.project_title} in field {request.research_field} Building LLM context...")
+    logging.info(f"Received request for project: {request.project_title} Building LLM context...")
     prompt = build_context(request)
     
     logging.info("Context built. Invoking LLM...")
@@ -33,23 +33,29 @@ def generate_project_text(
         raise RuntimeError("LLM returned invalid JSON.") from e
     
     #--- Parse project page ---
-    project_page = GeneratedText(
-        text=parsed["project_page"]["text"],
-        used_keywords=parsed["project_page"]["used_keywords"],
-        length_words=len(parsed["project_page"]["text"].split()),
-    )
+    project_page = {}
+    
+    for lang_code, entry in parsed["project_page"].items():
+        project_page[lang_code] = GeneratedText(
+            text=entry.get("text", ""),
+            reading_level=entry.get("reading_level"),
+            word_count=entry.get("word_count", 0),
+        )
 
     #--- Parse faculty teaser ---
-    faculty_teaser = GeneratedText(
-        text=parsed["faculty_teaser"]["text"],
-        used_keywords=parsed["faculty_teaser"]["used_keywords"],
-        length_words=len(parsed["faculty_teaser"]["text"].split()),
-    )
+    faculty_teaser = {}
+    
+    for lang_code, entry in parsed["faculty_teaser"].items():
+        faculty_teaser[lang_code] = GeneratedText(
+            text=entry.get("text", ""),
+            reading_level=entry.get("reading_level"),
+            word_count=entry.get("word_count", 0),
+        )
     
     warnings = parsed.get("warnings") or []
 
-    pp_len = project_page.length_words
-    ft_len = faculty_teaser.length_words
+    pp_len = sum(page.word_count for page in project_page.values())
+    ft_len = sum(teaser.word_count for teaser in faculty_teaser.values())
 
     if not 300 <= pp_len <= 500:
         warnings.append(
@@ -64,6 +70,7 @@ def generate_project_text(
     return ProjectTextGenerationResult(
         project_page=project_page,
         faculty_teaser=faculty_teaser,
+        used_keywords=request.keywords,
         warnings=warnings or None,
     )
 

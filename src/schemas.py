@@ -6,6 +6,9 @@ from pydantic import BaseModel, Field
 # -------------------------
 # ENUMS
 # -------------------------
+class LanguageCode(str, Enum):
+    en = "en"
+    de = "de"
 
 class TargetAudience(str, Enum):
     faculty = "faculty"
@@ -28,12 +31,10 @@ class SourceType(str, Enum):
 
 class ProjectTextGenerationRequest(BaseModel):
     project_title: str = Field(..., description="Short title of the research project.")
-    research_field: str = Field(..., description="High-level research domain.") 
     keywords: List[str] = Field(..., description="Key terms describing the project.")
     target_audience: list[TargetAudience] = Field(..., description="Intended readership groups.")
-    reading_level: list[ReadingLevel] = Field(..., description="Estimated reading complexity.")
-    language: str = Field(..., description="Output language (e.g., 'en', 'de').")
-    source_type: Optional[SourceType] = Field(None, description="Origin of the input data.") 
+    languages: List[LanguageCode] = Field(..., description="Output language (e.g., ['en', 'de']).")
+    source_type: str | None = Field(None, description="Origin of the input data.") 
 
 # -------------------------
 # OUTPUT SCHEMA
@@ -41,10 +42,12 @@ class ProjectTextGenerationRequest(BaseModel):
 
 class GeneratedText(BaseModel):
     text: str = Field(..., description="Generated public-facing text.") 
-    length_words: int = Field(...,  description="Word count of the generated text.") 
-    used_keywords: List[str] = Field(..., description="Keywords that appear in the text.") 
+    reading_level: Optional[str]= Field(..., description="Intended reading level of the text.")
+    word_count: int = 0
+   
 
 class ProjectTextGenerationResult(BaseModel):
-    project_page: GeneratedText = Field(..., description="Detailed project description for a public project page.")
-    faculty_teaser: GeneratedText = Field(..., description="Short teaser text for a faculty overview page.") 
+    project_page: dict[str, GeneratedText] = Field(..., description="Detailed project description for a public project page.")
+    faculty_teaser: dict[str, GeneratedText] = Field(..., description="Short teaser text for a faculty overview page.") 
+    used_keywords: Optional[List[str]]= Field(..., description="Keywords that appear in the text.") 
     warnings: Optional[List[str]] = Field(None, description="Notes about uncertainty or sparse input.") 

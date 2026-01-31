@@ -1,67 +1,82 @@
 from schemas import ProjectTextGenerationRequest
 
 def build_context(request: ProjectTextGenerationRequest) -> str:
-    """
-    Builds a single prompt for the LLM that requests both a detialed project page description
-    and a short teaser for faculty teaser based only on sparse project metadata.
-    """
-    
-    keywords_str = ", ".join(request.keywords)
     audiences = ", ".join(a.value for a in request.target_audience)
-    reading_levels = ", ".join(r.value for r in request.reading_level)
+    languages = ", ".join(request.languages)
+    keywords = ", ".join(request.keywords) if request.keywords else "None provided"
 
-    
     prompt = f"""
-    You are an expert science communicator at the university.
-    Your task is to generate two pieces of public-facing text based on minimal project metadata.
-    
-    INPUT DATA:
-    - Project Title: {request.project_title}
-    - Research Field: {request.research_field}
-    - Keywords: {keywords_str}
-    - Reading Level: {reading_levels}
-    - Target Audience: {audiences}
-    - Language: {request.language}
-    
-    TASK:
-    1. Write a detailed but accessible project description suitable for a public project page.
-    2. Write a short, engaging teaser suitable for a faculty overview page.
+You are a science communication expert at a university working on public-facing research content.
 
-    LENGTH CONSTRAINTS:
-    - Project page: approximately 300 to 500 words.
-    - Faculty teaser: approximately 60 to 100 words.
-    
-    REQUIREMENTS:
-    - Use clear, non-technical language appropriate for the target audience.
-    - Base all content strictly on the title, research field, and keywords provided.
-    - Aviod unverifiable claims or specific outcomes.
-    - Integrate keywords naturally where appropriate.
-    - Keep the description high-level and generic where necessary.
-     
-    GENERAL CONSTRAINTS
-    -------------------
-    - Write in {request.language}
-    - Ensure consistency between both texts
-    - Avoid unnecessary technical jargon
-    
-    OUTPUT FORMAT:
-    Return a JSON object with the following structure:
-    {{
-        "project_page": {{
-            "text": "...",
-            "length_words": ...,
-            "used_keywords": ["...", "..."]
-        }},
-        "faculty_teaser": {{
-            "text": "...",
-            "length_words": ...,
-            "used_keywords": ["...", "..."]
-        }},
-        "warnings": ["..."] | null  # Optional notes about uncertainty or sparse input
+PROJECT TITLE
+{request.project_title}
+
+KEYWORDS
+{keywords}
+
+TASK
+Generate two texts based ONLY on the project title above:
+- a detailed project page (300–500 words)
+- a short faculty teaser (60–100 words)
+
+TARGET AUDIENCE
+{audiences}
+
+LANGUAGES
+Generate output in the following languages:
+{languages}
+
+READING LEVEL
+For EACH generated text include:
+- reading_level: one of [beginner, intermediate, advanced]
+
+You must determine an appropriate reading level based on
+target audience and content complexity.
+
+STYLE GUIDELINES
+- Popular science
+- Clear explanations
+- Avoid unnecessary jargon
+- No internal proposal language
+
+REQUIREMENTS
+- Use clear, non-technical language appropriate for the audience
+- Base all content strictly on the project title and keywords
+- Avoid unverifiable claims or specific outcomes
+- Integrate keywords naturally
+- Keep descriptions high-level and generic where necessary
+
+STRUCTURE (project page only)
+Use clear section headers such as:
+- Motivation
+- Research Goals
+- Societal Relevance
+- Expected Impact
+- Cooperation and Funding
+
+OUTPUT FORMAT
+Return strict JSON ONLY:
+
+{{
+  "project_page": {{
+    "<language_code>": {{
+      "text": "...",
+      "reading_level": "...",
+      "word_count": ...
     }}
-    
-    Only return valid JSON. DO not include explanations or additional text.
-    """
-    
+  }},
+  "faculty_teaser": {{
+    "<language_code>": {{
+      "text": "...",
+      "reading_level": "...",
+      "word_count": ...
+    }}
+  }},
+  "used_keywords": ["..."],
+  "warnings": ["..."]
+}}
+
+Replace <language_code> with each requested language (e.g., "en", "de").
+"""
 
     return prompt.strip()
