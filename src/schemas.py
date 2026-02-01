@@ -29,7 +29,8 @@ class SourceType(str, Enum):
 # INPUT SCHEMA
 # -------------------------
 
-class ProjectTextGenerationRequest(BaseModel):
+class GenerateProjectTextInput(BaseModel):
+    project_id: str = Field(..., description="Unique identifier for the research project.")
     project_title: str = Field(..., description="Short title of the research project.")
     keywords: List[str] = Field(..., description="Key terms describing the project.")
     target_audience: list[TargetAudience] = Field(..., description="Intended readership groups.")
@@ -46,7 +47,7 @@ class GeneratedText(BaseModel):
     word_count: int = 0
    
 
-class ProjectTextGenerationResult(BaseModel):
+class GenerateProjectTextOutput(BaseModel):
     project_page: dict[str, GeneratedText] = Field(..., description="Detailed project description for a public project page.")
     faculty_teaser: dict[str, GeneratedText] = Field(..., description="Short teaser text for a faculty overview page.") 
     used_keywords: Optional[List[str]]= Field(..., description="Keywords that appear in the text.") 
