@@ -3,6 +3,7 @@ from schemas import (GenerateProjectTextInput, GenerateProjectTextOutput, Genera
 from context import build_context
 from llm import generate_text_from_context
 from resource import projects_resource
+from evaluation import evaluate_generated_vs_reference
 from storage import save_generation
 import json
 import logging
@@ -13,9 +14,12 @@ logging.basicConfig(level=logging.INFO)
 # TOOLS
 #-------------------------
 
+# Core tool to generate project texts and evaluate results
 @mcp.tool()
 def generate_project_text(
     request: GenerateProjectTextInput,
+    *,
+    reference_text: str | None= None,
     ) -> GenerateProjectTextOutput:
     """
     Generates both a detailed project page description and a short faculty teaser
@@ -47,24 +51,33 @@ def generate_project_text(
         lang: GeneratedText(**entry)
         for lang, entry in parsed["faculty_teaser"].items()
     }
-    warnings = parsed.get("warnings") or []
     
     result = GenerateProjectTextOutput(
         project_page=project_page,
         faculty_teaser=faculty_teaser,
         used_keywords=request.keywords,
-        warnings=warnings or None,
+        warnings=parsed.get("warnings"),
     )
-
-    # persist output
+    
+    #--- Evaluation (optional) if reference text provided ---
+    evaluation = None
+    if reference_text:
+        evaluation = evaluate_generated_vs_reference(
+            project_id=request.project_id,
+            generated_text=project_page["de"].text,
+            reference_text=reference_text,
+        )
+        
+    #--- Save outputs and evaluation ---
     save_generation(
         project_id=request.project_id,
         result=result,
+        evaluation=evaluation,
     )
 
     return result
 
-    
+# Adapter tool to generate project text from project ID
 @mcp.tool()
 def generate_project_text_from_project_id(
     project_id: str,
@@ -86,31 +99,27 @@ def generate_project_text_from_project_id(
         raise ValueError(f"Project not found: {project_id}")
 
     # extract VALUES from excel sheet ----
-    raw_keywords = [
+    keywords = []
+    for kw in[
         project.get("Mittelgeber"),
         project.get("Drittmittelgeberkategorie"),
         project.get("Forschungsfelder"),
-		    project.get("Kooperationspartner"),
+		project.get("Kooperationspartner"),
         project.get("Mittelherkunft"),
-		    project.get("Projektzweck")
-    ]
-
-    keywords = []
-    for kw in raw_keywords:
-        if isinstance(kw, str) and kw.strip():
-            keywords.extend(
-                part.strip()
-                for part in kw.replace(",", ";").split(";")
-                if part.strip()
-            )
+		project.get("Projektzweck")
+    ]:
+        if isinstance(kw, str):
+            keywords.extend(p.strip() for p in kw.replace(",", ";").split(";") if p.strip())
 
     request = GenerateProjectTextInput(
         project_id=project["project_id"],
         project_title=project["Projekttitel"],
         keywords=keywords,
         target_audience=["faculty", "industry"],
-        languages=["en", "de"],
-        source_type="excel",
+        languages=["de", "en"],
+        source_type="excel", 
     )
+    reference_text=project.get("Beschreibung")
 
-    return generate_project_text(request)
+    return generate_project_text(request, reference_text=reference_text)
+

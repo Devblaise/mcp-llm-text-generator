@@ -4,16 +4,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# model="openai-gpt-oss-120b"
-model="qwen3-30b-a3b-instruct-2507"
+#model="openai-gpt-oss-120b"
+model="gpt-5-nano"
 
-api_key=os.getenv("api_key")
-base_url=os.getenv("base_url")
+api_key=os.getenv("OPENAI_API_KEY")
+# base_url=os.getenv("base_url")
 
 
-client = OpenAI(api_key=api_key,
-                base_url=base_url)
+#client = OpenAI(api_key=api_key,
+#               base_url=base_url)
 
+client = OpenAI(api_key=api_key)
 #-------------------------
 # LLM INTERFACE
 #-------------------------
@@ -30,7 +31,7 @@ def generate_text_from_context(prompt: str) -> str:
     messages=[
       {"role": "system", "content": prompt},
     ],
-    temperature=0.4,
+   # temperature=0.4,
     model= model
   )  
   return response.choices[0].message.content

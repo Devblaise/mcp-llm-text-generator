@@ -116,7 +116,7 @@ def build_context(request: GenerateProjectTextInput) -> str:
       "warnings": ["..."]
     }}
 
-    Replace <language_code> with each requested language (e.g. "en", "de").
+    Replace <language_code> with each requested language (e.g. "de", "en").
 
     Return ONLY valid JSON.
     """
