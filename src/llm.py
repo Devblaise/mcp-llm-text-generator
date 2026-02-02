@@ -4,13 +4,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-model="openai-gpt-oss-120b"
+# model="openai-gpt-oss-120b"
+model="qwen3-30b-a3b-instruct-2507"
+
 api_key=os.getenv("api_key")
 base_url=os.getenv("base_url")
 
 
 client = OpenAI(api_key=api_key,
                 base_url=base_url)
+
+#-------------------------
+# LLM INTERFACE
+#-------------------------
 
 def generate_text_from_context(prompt: str) -> str:
   """

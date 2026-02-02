@@ -1,5 +1,9 @@
 from schemas import GenerateProjectTextInput
 
+#-------------------------
+# CONTEXT BUILDING
+#-------------------------  
+
 def build_context(request: GenerateProjectTextInput) -> str:
     """
     Builds a controlled prompt for public-facing text generation

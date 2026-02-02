@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO)
 #-------------------------
 # TOOLS
 #-------------------------
+
 @mcp.tool()
 def generate_project_text(
     request: GenerateProjectTextInput,

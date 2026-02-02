@@ -8,6 +8,7 @@ EXCEL_PATH = "src/data/2026-01-30_Projektbericht_öffentliche_Projekte.xlsx"
 #-------------------------
 # RESOURCES
 #-------------------------
+
 @mcp.resource("mcp://projects", mime_type="application/json")
 def projects_resource():
     """
