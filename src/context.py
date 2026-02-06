@@ -1,3 +1,9 @@
+#**************************************
+# Author: Mbadugha Kenechukwu
+# Technichse Hoschule Köln (TH Köln)
+# Communication Systems and Networks
+#*************************************
+
 from schemas import GenerateProjectTextInput
 
 #-------------------------
@@ -46,7 +52,7 @@ def build_context(request: GenerateProjectTextInput) -> str:
     Generate TWO texts:
 
     1. Project Page Description
-      - Length: 300–500 words
+      - Length: 200–250 words
       - Structure with clear section headers:
         • Motivation
         • Research Goals
@@ -55,7 +61,7 @@ def build_context(request: GenerateProjectTextInput) -> str:
         • Cooperation and Funding (general)
 
     2. Faculty Teaser
-      - Length: 60–100 words
+      - Length: 50–100 words
       - Concise, accessible summary
 
     ────────────────────────────────────────

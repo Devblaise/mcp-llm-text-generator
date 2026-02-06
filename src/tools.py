@@ -1,9 +1,16 @@
+#**************************************
+# Author: Mbadugha Kenechukwu
+# Technichse Hoschule Köln (TH Köln)
+# Communication Systems and Networks 
+#*************************************
+
 from mcp_app import mcp
 from schemas import (GenerateProjectTextInput, GenerateProjectTextOutput, GeneratedText)
 from context import build_context
 from llm import generate_text_from_context
 from resource import projects_resource
 from evaluation import evaluate_generated_vs_reference
+from utils import normalize_generated_entry
 from storage import save_generation
 import json
 import logging
@@ -19,7 +26,7 @@ logging.basicConfig(level=logging.INFO)
 def generate_project_text(
     request: GenerateProjectTextInput,
     *,
-    reference_text: str | None= None,
+    reference_text: str | None = None,
     ) -> GenerateProjectTextOutput:
     """
     Generates both a detailed project page description and a short faculty teaser
@@ -34,6 +41,8 @@ def generate_project_text(
     #--- Build LLM context ---
     prompt = build_context(request)
     logging.info("Context built. Invoking LLM...")
+    
+    #--- Invoke and Generate text via LLM ---
     raw_response = generate_text_from_context(prompt)
     
     try:
@@ -42,16 +51,20 @@ def generate_project_text(
         logging.error("Invalid JSON response from LLM.")
         raise RuntimeError("LLM returned invalid JSON.") from e
     
-    #--- Parsed outputs ---
-    project_page = {
-        lang: GeneratedText(**entry)
-        for lang, entry in parsed["project_page"].items()
-    }
-    faculty_teaser = {
-        lang: GeneratedText(**entry)
-        for lang, entry in parsed["faculty_teaser"].items()
-    }
+    # --- Normalize + parse project_page ---
+    project_page = {}
+    for lang, entry in parsed["project_page"].items():
+        entry = normalize_generated_entry(entry)
+        project_page[lang] = GeneratedText(**entry)
+
+    # --- Normalize + parse faculty_teaser ---
+    faculty_teaser = {}
+    for lang, entry in parsed["faculty_teaser"].items():
+        entry = normalize_generated_entry(entry)
+        faculty_teaser[lang] = GeneratedText(**entry)
+
     
+    #--- Creates the final output ---
     result = GenerateProjectTextOutput(
         project_page=project_page,
         faculty_teaser=faculty_teaser,
@@ -74,7 +87,7 @@ def generate_project_text(
         result=result,
         evaluation=evaluation,
     )
-
+    
     return result
 
 # Adapter tool to generate project text from project ID
@@ -103,7 +116,6 @@ def generate_project_text_from_project_id(
     for kw in[
         project.get("Mittelgeber"),
         project.get("Drittmittelgeberkategorie"),
-        project.get("Forschungsfelder"),
 		project.get("Kooperationspartner"),
         project.get("Mittelherkunft"),
 		project.get("Projektzweck")

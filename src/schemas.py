@@ -1,3 +1,9 @@
+#**************************************
+# Author: Mbadugha Kenechukwu
+# Technichse Hoschule Köln (TH Köln)
+# Communication Systems and Networks
+#*************************************
+
 from enum import Enum
 from typing import List, Optional
 from pydantic import BaseModel, Field
@@ -12,7 +18,6 @@ class LanguageCode(str, Enum):
 
 class TargetAudience(str, Enum):
     faculty = "faculty"
-    students = "students"
     industry = "industry"
     general_public = "general_public"
 

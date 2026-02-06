@@ -1,3 +1,9 @@
+#**************************************
+# Author: Mbadugha Kenechukwu
+# Technichse Hoschule Köln (TH Köln)
+# Communication Systems and Networks
+#*************************************
+
 from mcp_app import mcp
 import pandas as pd
 import uuid
@@ -20,7 +26,7 @@ def projects_resource():
     # Add deterministic IDs if not present
     if "project_id" not in df.columns:
         df.insert(0, "project_id", [
-            f"proj-{i:04d}" for i in range(len(df))
+            f"proj-{i:03d}" for i in range(1, len(df) + 1)
         ])
 
     return df.to_dict(orient="records")
