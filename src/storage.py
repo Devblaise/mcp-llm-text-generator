@@ -1,9 +1,3 @@
-#**************************************
-# Author: Mbadugha Kenechukwu
-# Technichse Hoschule Köln (TH Köln)
-# Communication Systems and Networks
-#*************************************
-
 from pathlib import Path
 import json
 import os

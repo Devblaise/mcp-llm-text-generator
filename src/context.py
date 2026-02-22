@@ -1,9 +1,3 @@
-#**************************************
-# Author: Mbadugha Kenechukwu
-# Technichse Hoschule Köln (TH Köln)
-# Communication Systems and Networks
-#*************************************
-
 from schemas import GenerateProjectTextInput
 
 #-------------------------

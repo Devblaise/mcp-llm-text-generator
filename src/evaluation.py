@@ -1,9 +1,3 @@
-#**************************************
-# Author: Mbadugha Kenechukwu
-# Technichse Hoschule Köln (TH Köln)
-# Communication Systems and Networks
-#*************************************
-
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import AnswerRelevancyMetric
 from llm import generate_text_from_context 

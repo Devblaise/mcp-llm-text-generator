@@ -1,9 +1,3 @@
-#**************************************
-# Author: Mbadugha Kenechukwu
-# Technichse Hoschule Köln (TH Köln)
-# Communication Systems and Networks
-#*************************************
-
 from mcp_app import mcp
 import pandas as pd
 import uuid

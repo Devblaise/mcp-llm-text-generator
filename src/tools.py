@@ -1,9 +1,3 @@
-#**************************************
-# Author: Mbadugha Kenechukwu
-# Technichse Hoschule Köln (TH Köln)
-# Communication Systems and Networks 
-#*************************************
-
 from mcp_app import mcp
 from schemas import (GenerateProjectTextInput, GenerateProjectTextOutput, GeneratedText)
 from context import build_context
@@ -23,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Core tool to generate project texts and evaluate results
 @mcp.tool()
-def generate_project_text(
+async def generate_project_text(
     request: GenerateProjectTextInput,
     *,
     reference_text: str | None = None,
@@ -34,37 +28,47 @@ def generate_project_text(
     """
   
     logging.info(
-        f"Generating text for project: {request.project_title}"
+        f"Generating text for project: {request.project_id} - {request.project_description[:50]}... "
         f"(languages={request.languages}, audience={request.target_audience})"
     )
     
     #--- Build LLM context ---
+    logging.info("Building context prompt from project metadata...")
     prompt = build_context(request)
-    logging.info("Context built. Invoking LLM...")
+    logging.info(f"Context prompt built ({len(prompt)} characters). Invoking LLM...")
     
-    #--- Invoke and Generate text via LLM ---
-    raw_response = generate_text_from_context(prompt)
+    #--- Invoke and Generate text via LLM (async) ---
+    logging.info("Sending prompt to OpenAI API with async client...")
+    raw_response = await generate_text_from_context(prompt)
+    logging.info(f"LLM response received ({len(raw_response)} characters).")
     
     try:
+        logging.info("Parsing JSON response from LLM...")
         parsed= json.loads(raw_response)
+        logging.info("JSON parsed successfully.")
     except json.JSONDecodeError as e:
         logging.error("Invalid JSON response from LLM.")
         raise RuntimeError("LLM returned invalid JSON.") from e
     
     # --- Normalize + parse project_page ---
+    logging.info("Processing project page descriptions...")
     project_page = {}
     for lang, entry in parsed["project_page"].items():
         entry = normalize_generated_entry(entry)
         project_page[lang] = GeneratedText(**entry)
+        logging.info(f"  [OK] {lang.upper()}: {entry.get('word_count', 0)} words, {entry.get('reading_level', 'N/A')} level")
 
     # --- Normalize + parse faculty_teaser ---
+    logging.info("Processing faculty teaser descriptions...")
     faculty_teaser = {}
     for lang, entry in parsed["faculty_teaser"].items():
         entry = normalize_generated_entry(entry)
         faculty_teaser[lang] = GeneratedText(**entry)
+        logging.info(f"  [OK] {lang.upper()}: {entry.get('word_count', 0)} words, {entry.get('reading_level', 'N/A')} level")
 
     
     #--- Creates the final output ---
+    logging.info("Creating final output object...")
     result = GenerateProjectTextOutput(
         project_page=project_page,
         faculty_teaser=faculty_teaser,
@@ -75,24 +79,28 @@ def generate_project_text(
     #--- Evaluation (optional) if reference text provided ---
     evaluation = None
     if reference_text:
+        logging.info("Reference text provided. Running evaluation...")
         evaluation = evaluate_generated_vs_reference(
             project_id=request.project_id,
             generated_text=project_page["de"].text,
             reference_text=reference_text,
         )
+        logging.info("Evaluation complete.")
         
-    #--- Save outputs and evaluation ---
-    save_generation(
+    #--- Save outputs and evaluation (async) ---
+    logging.info("Saving generation results to storage (async)...")
+    await save_generation(
         project_id=request.project_id,
         result=result,
         evaluation=evaluation,
     )
+    logging.info(f"Generation complete for project {request.project_id}.")
     
     return result
 
 # Adapter tool to generate project text from project ID
 @mcp.tool()
-def generate_project_text_from_project_id(
+async def generate_project_text_from_project_id(
     project_id: str,
 ) -> GenerateProjectTextOutput:
     """
@@ -114,9 +122,8 @@ def generate_project_text_from_project_id(
     # extract VALUES from excel sheet ----
     keywords = []
     for kw in[
-        project.get("Mittelgeber"),
-        project.get("Drittmittelgeberkategorie"),
 		project.get("Kooperationspartner"),
+        project.get("Drittmittelgeberkategorie"),
         project.get("Mittelherkunft"),
 		project.get("Projektzweck")
     ]:
@@ -125,13 +132,15 @@ def generate_project_text_from_project_id(
 
     request = GenerateProjectTextInput(
         project_id=project["project_id"],
-        project_title=project["Projekttitel"],
+        project_description=project["Beschreibung"],
         keywords=keywords,
         target_audience=["faculty", "industry"],
         languages=["de", "en"],
         source_type="excel", 
     )
-    reference_text=project.get("Beschreibung")
+    # reference_text=project.get("Referenztext") --- IGNORE ---, assuming the Excel sheet does not contain a human written project description for evaluation purposes. The evaluation will be skipped if reference_text is None or empty.
 
-    return generate_project_text(request, reference_text=reference_text)
+    # return await generate_project_text(request, reference_text=reference_text)
+
+    return await generate_project_text(request)
 

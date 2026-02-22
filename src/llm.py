@@ -1,9 +1,3 @@
-#**************************************
-# Author: Mbadugha Kenechukwu
-# Technichse Hoschule Köln (TH Köln)
-# Communication Systems and Networks
-#*************************************
-
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
