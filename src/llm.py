@@ -1,5 +1,5 @@
 import os
-from openai import OpenAI
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,16 +12,16 @@ api_key=os.getenv("OPENAI_API_KEY")
 # base_url=os.getenv("base_url")
 
 
-# client = OpenAI(api_key=api_key,
+# client = AsyncOpenAI(api_key=api_key,
 #             base_url=base_url)
 
-client = OpenAI(api_key=api_key)
+client = AsyncOpenAI(api_key=api_key)
 
 #-------------------------
 # LLM INTERFACE
 #-------------------------
 
-def generate_text_from_context(prompt: str) -> str:
+async def generate_text_from_context(prompt: str) -> str:
   """
   Generate text from an explicit model context.
   """
@@ -29,7 +29,7 @@ def generate_text_from_context(prompt: str) -> str:
   if not prompt.strip():
     raise ValueError("Prompt must not be empty.")
   
-  response = client.chat.completions.create(
+  response = await client.chat.completions.create(
     messages=[
       {"role": "system", "content": prompt},
     ],

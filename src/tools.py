@@ -38,7 +38,7 @@ async def generate_project_text(
     logging.info(f"Context prompt built ({len(prompt)} characters). Invoking LLM...")
     
     #--- Invoke and Generate text via LLM (async) ---
-    logging.info("Sending prompt to OpenAI API with async client...")
+    logging.info("Sending prompt to OpenAI API...")
     raw_response = await generate_text_from_context(prompt)
     logging.info(f"LLM response received ({len(raw_response)} characters).")
     
@@ -56,7 +56,7 @@ async def generate_project_text(
     for lang, entry in parsed["project_page"].items():
         entry = normalize_generated_entry(entry)
         project_page[lang] = GeneratedText(**entry)
-        logging.info(f"  [OK] {lang.upper()}: {entry.get('word_count', 0)} words, {entry.get('reading_level', 'N/A')} level")
+        logging.info(f" {lang.upper()}: {entry.get('word_count', 0)} words, {entry.get('reading_level', 'N/A')} level")
 
     # --- Normalize + parse faculty_teaser ---
     logging.info("Processing faculty teaser descriptions...")
@@ -64,7 +64,7 @@ async def generate_project_text(
     for lang, entry in parsed["faculty_teaser"].items():
         entry = normalize_generated_entry(entry)
         faculty_teaser[lang] = GeneratedText(**entry)
-        logging.info(f"  [OK] {lang.upper()}: {entry.get('word_count', 0)} words, {entry.get('reading_level', 'N/A')} level")
+        logging.info(f" {lang.upper()}: {entry.get('word_count', 0)} words, {entry.get('reading_level', 'N/A')} level")
 
     
     #--- Creates the final output ---
@@ -87,9 +87,9 @@ async def generate_project_text(
         )
         logging.info("Evaluation complete.")
         
-    #--- Save outputs and evaluation (async) ---
-    logging.info("Saving generation results to storage (async)...")
-    await save_generation(
+    #--- Save outputs and evaluation ---
+    logging.info("Saving generation results to storage...")
+    save_generation(
         project_id=request.project_id,
         result=result,
         evaluation=evaluation,
