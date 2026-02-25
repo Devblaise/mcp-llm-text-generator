@@ -28,8 +28,8 @@ def build_context(request: GenerateProjectTextInput) -> str:
     PROJECT METADATA (SOURCE: EXCEL SHEET)
     ────────────────────────────────────────
 
-    Project title:
-    {request.project_title}
+    Project description:
+    {request.project_description}
 
     Keywords and contextual signals:
     {keywords}

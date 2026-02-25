@@ -30,7 +30,7 @@ class SourceType(str, Enum):
 
 class GenerateProjectTextInput(BaseModel):
     project_id: str = Field(..., description="Unique identifier for the research project.")
-    project_title: str = Field(..., description="Short title of the research project.")
+    project_description: str = Field(..., description="Description of the research project.")
     keywords: List[str] = Field(..., description="Key terms describing the project.")
     target_audience: list[TargetAudience] = Field(..., description="Intended readership groups.")
     languages: List[LanguageCode] = Field(..., description="Output language (e.g., ['en', 'de']).")
