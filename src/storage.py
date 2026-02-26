@@ -4,7 +4,7 @@ import os
 from schemas import GenerateProjectTextOutput
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-BASE_DIR = PROJECT_ROOT / "src/outputs"
+BASE_DIR = Path(os.getenv("OUTPUT_DIR", PROJECT_ROOT / "src/outputs"))
 
 
 # ------------------------
@@ -13,7 +13,7 @@ BASE_DIR = PROJECT_ROOT / "src/outputs"
 
 def save_generation(
     project_id: str,
-    evaluation: dict,
+   # evaluation: dict,
     result: GenerateProjectTextOutput,
 ):
     # Ensure output directory exists
@@ -27,8 +27,8 @@ def save_generation(
     with (project_dir / "output.json").open("w", encoding="utf-8") as f:
         json.dump(result.model_dump(), f, indent=2, ensure_ascii=False)
 
-    with (project_dir / "evaluation.json").open("w", encoding="utf-8") as f:
-        json.dump(evaluation, f, indent=2, ensure_ascii=False)
+    # with (project_dir / "evaluation.json").open("w", encoding="utf-8") as f:
+    #     json.dump(evaluation, f, indent=2, ensure_ascii=False)
 
 
 

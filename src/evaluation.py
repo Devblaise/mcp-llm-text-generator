@@ -1,52 +1,56 @@
 from deepeval.test_case import LLMTestCase
-from deepeval.metrics import AnswerRelevancyMetric
-from llm import generate_text_from_context 
+from deepeval.metrics import GEval
+from deepeval.test_case import LLMTestCaseParams
+from llm import generate_text_from_context
+import logging
 
-#-------------------------
-# EVALUATION LOGIC
-#-------------------------  
-
-def judge_llm(prompt: str) -> str:
-    """
-    Uses the project LLM to perform qualitative comparison.
-    Returns a short comparison paragraph.
-    """
-    return generate_text_from_context(prompt)
+async def judge_llm(prompt: str) -> str:
+    """Uses the project LLM to perform qualitative comparison."""
+    return await generate_text_from_context(prompt)
 
 
-def evaluate_generated_vs_reference(
+async def evaluate_generated_vs_reference(
     *,
     project_id: str,
     generated_text: str,
-    reference_text: str,
-    ) -> dict:
-    """
-    Offline benchmark:
-    Compare generated public-facing text against the real human-written project description.
-    """
+    human_reference_text: str,
+) -> dict:
+    """Compare generated text against human-written reference."""
     
-    # --- Guard rail if Excel has no human written project description ---
-    if not reference_text or not reference_text.strip():
+    if not human_reference_text or not human_reference_text.strip():
         return {
             "project_id": project_id,
-            "metric": "AnswerRelevancy",
+            "metric": "TextSimilarity",
             "score": None,
             "reason": "Reference description missing — evaluation skipped.",
             "llm_comparison": None,
             "reference_excerpt": None,
         }
-      
-    # --- Quantitative evaluation (DeepEval)---  
+    
+    # --- Quantitative evaluation ---
     test_case = LLMTestCase(
-        input= reference_text,
-        actual_output= generated_text,
+        input="Compare these project descriptions",
+        actual_output=generated_text,
+        expected_output=human_reference_text,
     )
-
     
-    metric = AnswerRelevancyMetric(threshold=0.7)
-    metric.measure(test_case)
+    metric = GEval(
+        name="TextSimilarity",
+        criteria="Evaluate if the generated text preserves key facts, tone, and structure from the reference",
+        evaluation_params=[LLMTestCaseParams.ACTUAL_OUTPUT, LLMTestCaseParams.EXPECTED_OUTPUT],
+        threshold=0.7,
+    )
     
-    # ---  Qualitative explanation (non-scoring) ---
+    try:
+        await metric.a_measure(test_case)
+        score = metric.score
+        reason = metric.reason
+    except Exception as e:
+        logging.error(f"DeepEval evaluation failed: {e}")
+        score = None
+        reason = f"Evaluation error: {e}"
+    
+    # --- Qualitative explanation ---
     comparison_prompt = f"""
     Compare the following two project descriptions.
 
@@ -54,19 +58,18 @@ def evaluate_generated_vs_reference(
     {generated_text}
 
     Reference description:
-    {reference_text}
+    {human_reference_text}
 
     Explain briefly how closely the generated description matches the reference.
     """
-
     
-    llm_comparison = judge_llm(comparison_prompt)
-
+    llm_comparison = await judge_llm(comparison_prompt)
+    
     return {
         "project_id": project_id,
-        "metric": "AnswerRelevancy",
-        "score": metric.score,
-        "reason": metric.reason,
+        "metric": "TextSimilarity",
+        "score": score,
+        "reason": reason,
         "llm_comparison": llm_comparison,
-        "reference_excerpt": reference_text[:300],  # store part of the human written description for traceability and transparency
+        "reference_excerpt": human_reference_text[:300],
     }

@@ -31,8 +31,8 @@ class SourceType(str, Enum):
 class GenerateProjectTextInput(BaseModel):
     project_id: str = Field(..., description="Unique identifier for the research project.")
     project_description: str = Field(..., description="Description of the research project.")
-    keywords: List[str] = Field(..., description="Key terms describing the project.")
-    target_audience: list[TargetAudience] = Field(..., description="Intended readership groups.")
+    keywords: List[str] = Field(default_factory=list)
+    target_audience: list[TargetAudience] = Field(..., description="Intended audience for the generated text.")
     languages: List[LanguageCode] = Field(..., description="Output language (e.g., ['en', 'de']).")
     source_type: str | None = Field(None, description="Origin of the input data.") 
 
@@ -50,4 +50,4 @@ class GenerateProjectTextOutput(BaseModel):
     project_page: dict[str, GeneratedText] = Field(..., description="Detailed project description for a public project page.")
     faculty_teaser: dict[str, GeneratedText] = Field(..., description="Short teaser text for a faculty overview page.") 
     used_keywords: Optional[List[str]]= Field(..., description="Keywords that appear in the text.") 
-    warnings: Optional[List[str]] = Field(None, description="Notes about uncertainty or sparse input.") 
+    warnings: Optional[List[str]] = Field(None, description="Notes about uncertainty or sparse input.")

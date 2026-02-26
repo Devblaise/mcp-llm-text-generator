@@ -8,10 +8,8 @@ def build_context(request: GenerateProjectTextInput) -> str:
     """
     Builds a controlled prompt for public-facing text generation
     based exclusively on high-level project metadata.
-
-    IMPORTANT:
-    - The original technical project description is NOT used.
-    - All content must be inferred from title and metadata only.
+    The prompt is designed to guide the LLM in generating structured,
+    coherent, and audience-appropriate content.
     """
 
     audiences = ", ".join(a.value for a in request.target_audience)
@@ -19,25 +17,28 @@ def build_context(request: GenerateProjectTextInput) -> str:
     keywords = ", ".join(request.keywords) if request.keywords else "None"
 
     prompt = f"""
-    You are a science communication expert at a university.
+    You are writing official university project page content.
 
-    Your task is to generate public-facing descriptions of a research project
-    using ONLY high-level metadata provided below.
+    Your task is to rewrite the provided project description into
+    clear, structured texts suitable for a university website.
+
 
     ────────────────────────────────────────
-    PROJECT METADATA (SOURCE: EXCEL SHEET)
+    SOURCE TEXT (EXCEL: Beschreibung)
     ────────────────────────────────────────
 
     Project description:
     {request.project_description}
 
-    Keywords and contextual signals:
+    Optional Keywords  (contextual hints only):
     {keywords}
 
-    IMPORTANT CONSTRAINT:
-    - The original technical project description exists but MUST NOT be used.
-    - Do NOT infer specific results, methods, or claims.
-    - Keep all descriptions high-level and generic where necessary.
+    IMPORTANT RULES:
+    - The project description is the PRIMARY source of truth.
+    - Preserve concrete entities, tools, technologies, and scenarios when present.
+    - Keywords are optional reinforcement only.
+    - Do NOT introduce new concepts based only on keywords.
+    - Prefer factual consistency over creativity.
 
     ────────────────────────────────────────
     TASK
@@ -46,17 +47,17 @@ def build_context(request: GenerateProjectTextInput) -> str:
     Generate TWO texts:
 
     1. Project Page Description
-      - Length: 200–250 words
+      - Length: 400–500 words
       - Structure with clear section headers:
         • Motivation
         • Research Goals
         • Societal Relevance
         • Expected Impact
-        • Cooperation and Funding (general)
+        • Cooperation and Funding 
 
     2. Faculty Teaser
       - Length: 50–100 words
-      - Concise, accessible summary
+      - Concise institutional summary.
 
     ────────────────────────────────────────
     TARGET AUDIENCE
@@ -75,23 +76,23 @@ def build_context(request: GenerateProjectTextInput) -> str:
     READING LEVEL
     ────────────────────────────────────────
 
-    For EACH generated text, determine an appropriate reading level:
+    For EACH text choose:
     - beginner
     - intermediate
     - advanced
 
-    Choose based on audience and content complexity.
+    Select based on audience and technical density.
 
     ────────────────────────────────────────
     STYLE GUIDELINES
     ────────────────────────────────────────
 
-    - Popular science tone
-    - Clear explanations
+    - Institutional university project style
+    - Clear and concrete wording
+    - Preserve specific project details when available
+    - Neutral, factual tone
     - No proposal language
-    - No internal references
     - No unverifiable claims
-    - Neutral, informative style
 
     ────────────────────────────────────────
     OUTPUT FORMAT (STRICT JSON)
@@ -116,7 +117,7 @@ def build_context(request: GenerateProjectTextInput) -> str:
       "warnings": ["..."]
     }}
 
-    Replace <language_code> with each requested language (e.g. "de", "en").
+    Replace <language_code> with each requested language.
 
     Return ONLY valid JSON.
     """

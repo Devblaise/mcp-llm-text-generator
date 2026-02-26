@@ -1,7 +1,8 @@
 from mcp_app import mcp
 import pandas as pd
+import os
 
-EXCEL_PATH = "src/data/2026-01-30_Projektbericht_öffentliche_Projekte.xlsx"
+EXCEL_PATH = os.getenv("EXCEL_PATH", "src/data/2026-01-30_Projektbericht_öffentliche_Projekte.xlsx")
 
 
 #-------------------------
@@ -13,7 +14,11 @@ def projects_resource():
     """
     Read-only project metadata loaded from Excel.
     """
-    df = pd.read_excel(EXCEL_PATH)
+    try:
+        df = pd.read_excel(EXCEL_PATH)
+    except FileNotFoundError:
+        raise RuntimeError(f"Excel file not found: {EXCEL_PATH}")
+
     df.columns = [c.strip() for c in df.columns]
 
     # Add deterministic IDs if not present

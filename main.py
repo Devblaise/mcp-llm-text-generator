@@ -1,5 +1,5 @@
 def main():
-    print("Hello from project-text-generator!")
+    print("Hello from BA Creation of internet entries with MCP Server!")
 
 
 if __name__ == "__main__":
