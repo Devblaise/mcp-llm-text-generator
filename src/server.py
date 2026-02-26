@@ -1,7 +1,7 @@
 from mcp_app import mcp
 
 # Import resource and tools to register them with the MCP app
-import project_resource
+import resources
 import tools    
 
 #-------------------------

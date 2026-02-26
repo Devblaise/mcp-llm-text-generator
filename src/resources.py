@@ -1,6 +1,5 @@
 from mcp_app import mcp
 import pandas as pd
-import uuid
 
 EXCEL_PATH = "src/data/2026-01-30_Projektbericht_öffentliche_Projekte.xlsx"
 

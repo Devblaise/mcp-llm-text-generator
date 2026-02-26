@@ -2,7 +2,7 @@ from mcp_app import mcp
 from schemas import (GenerateProjectTextInput, GenerateProjectTextOutput, GeneratedText)
 from context import build_context
 from llm import generate_text_from_context
-from project_resource import projects_resource
+from resources import projects_resource
 from evaluation import evaluate_generated_vs_reference
 from utils import normalize_generated_entry
 from storage import save_generation

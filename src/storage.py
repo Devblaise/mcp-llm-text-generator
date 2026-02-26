@@ -9,7 +9,7 @@ BASE_DIR = PROJECT_ROOT / "src/outputs"
 
 # ------------------------
 # FILE OUTPUT STORAGE
-# -------------------------
+# ------------------------
 
 def save_generation(
     project_id: str,
