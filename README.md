@@ -1,4 +1,4 @@
-# MCP Text Generator for University Project Pages
+# BA Creation of internet entries with MCP Server
 
 An MCP (Model Context Protocol) server that generates public-facing university project page content using a large language model. It reads project metadata from an Excel file, builds a structured prompt, and produces bilingual (German/English) texts with automatic quality evaluation.
 
