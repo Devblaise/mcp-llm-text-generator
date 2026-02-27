@@ -1,75 +1,74 @@
-from deepeval.test_case import LLMTestCase
-from deepeval.metrics import GEval
-from deepeval.test_case import LLMTestCaseParams
-from llm import generate_text_from_context
 import logging
+from sentence_transformers import SentenceTransformer, util
 
-async def judge_llm(prompt: str) -> str:
-    """Uses the project LLM to perform qualitative comparison."""
-    return await generate_text_from_context(prompt)
+#-------------------------
+# SEMANTIC SIMILARITY EVALUATION
+# Uses sentence-transformers (local, no API needed)
+# Reference: https://www.sbert.net/
+#-------------------------
+
+# Load model once (multilingual - supports German)
+_model = None
+
+def _get_model():
+    global _model
+    if _model is None:
+        _model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+    return _model
 
 
-async def evaluate_generated_vs_reference(
+def evaluate_generated_vs_reference(
     *,
     project_id: str,
     generated_text: str,
     human_reference_text: str,
 ) -> dict:
-    """Compare generated text against human-written reference."""
+    """
+    Compare generated text against human-written reference using semantic similarity.
+    
+    Uses sentence-transformers to compute cosine similarity between embeddings.
+    This measures how semantically similar the texts are, not just word overlap.
+    
+    Reference: https://www.sbert.net/docs/usage/semantic_textual_similarity.html
+    """
     
     if not human_reference_text or not human_reference_text.strip():
         return {
             "project_id": project_id,
-            "metric": "TextSimilarity",
-            "score": None,
+            "metrics": None,
             "reason": "Reference description missing — evaluation skipped.",
-            "llm_comparison": None,
-            "reference_excerpt": None,
         }
     
-    # --- Quantitative evaluation ---
-    test_case = LLMTestCase(
-        input="Compare these project descriptions",
-        actual_output=generated_text,
-        expected_output=human_reference_text,
-    )
-    
-    metric = GEval(
-        name="TextSimilarity",
-        criteria="Evaluate if the generated text preserves key facts, tone, and structure from the reference",
-        evaluation_params=[LLMTestCaseParams.ACTUAL_OUTPUT, LLMTestCaseParams.EXPECTED_OUTPUT],
-        threshold=0.7,
-    )
-    
     try:
-        await metric.a_measure(test_case)
-        score = metric.score
-        reason = metric.reason
+        model = _get_model()
+        
+        # Compute embeddings
+        emb_generated = model.encode(generated_text, convert_to_tensor=True)
+        emb_reference = model.encode(human_reference_text, convert_to_tensor=True)
+        
+        # Compute cosine similarity
+        similarity = util.cos_sim(emb_generated, emb_reference).item()
+        
+        # Get embedding statistics for output
+        emb_gen_list = emb_generated.tolist()
+        emb_ref_list = emb_reference.tolist()
+        
+        return {
+            "project_id": project_id,
+            "semantic_similarity": round(similarity, 4),
+            "embedding_details": {
+                "model": "paraphrase-multilingual-MiniLM-L12-v2",
+                "dimensions": len(emb_gen_list),
+                "generated_embedding_sample": [round(x, 4) for x in emb_gen_list[:10]],  # First 10 values
+                "reference_embedding_sample": [round(x, 4) for x in emb_ref_list[:10]],  # First 10 values
+            },
+            "reference_excerpt": human_reference_text[:300],
+        }
+        
     except Exception as e:
-        logging.error(f"DeepEval evaluation failed: {e}")
-        score = None
-        reason = f"Evaluation error: {e}"
-    
-    # --- Qualitative explanation ---
-    comparison_prompt = f"""
-    Compare the following two project descriptions.
-
-    Generated description:
-    {generated_text}
-
-    Reference description:
-    {human_reference_text}
-
-    Explain briefly how closely the generated description matches the reference.
-    """
-    
-    llm_comparison = await judge_llm(comparison_prompt)
-    
-    return {
-        "project_id": project_id,
-        "metric": "TextSimilarity",
-        "score": score,
-        "reason": reason,
-        "llm_comparison": llm_comparison,
-        "reference_excerpt": human_reference_text[:300],
-    }
+        logging.error(f"Evaluation failed: {e}")
+        return {
+            "project_id": project_id,
+            "metrics": None,
+            "reason": f"Evaluation error: {e}",
+        }
