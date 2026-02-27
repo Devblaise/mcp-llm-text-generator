@@ -1,13 +1,11 @@
-from httpcore import request
-
 from mcp_app import mcp
 from schemas import (GenerateProjectTextInput, GenerateProjectTextOutput, GeneratedText)
 from context import build_context
 from llm import generate_text_from_context
 from resources import projects_resource
 from evaluation import evaluate_generated_vs_reference
-from utils import normalize_generated_entry
-from storage import save_generation
+from utils import normalize_generated_entry, extract_keywords
+from storage import save_generation, load_reference_text
 import json
 import logging
 
@@ -20,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 async def generate_project_text(
     request: GenerateProjectTextInput,
     *,
-    reference_text: str | None = None,
+    reference_text: str | None = None, 
     ) -> GenerateProjectTextOutput:
     """
     Generates both a detailed project page description and a short faculty teaser
@@ -94,26 +92,28 @@ async def generate_project_text(
     )
     
     #--- Evaluation (optional) if reference text provided ---
-    #evaluation = None
-    #if reference_text:
-    #   logging.info("Reference text provided. Running evaluation...")
-    #    evaluation = evaluate_generated_vs_reference(
-    #        project_id=request.project_id,
-    #        generated_text=project_page["de"].text,
-    #        reference_text=reference_text,
-    #    )
-    #  logging.info("Evaluation complete.")
+    evaluation = None
+    if reference_text:
+        logging.info("Reference text provided. Running evaluation...")
+        evaluation = evaluate_generated_vs_reference(
+            project_id=request.project_id,
+            generated_text=project_page["de"].text,
+            human_reference_text=reference_text,
+        )
+        logging.info("Evaluation complete.")
         
     #--- Save outputs and evaluation ---
     logging.info("Saving generation results to storage...")
     save_generation(
         project_id=request.project_id,
         result=result,
-       # evaluation=evaluation,
+        evaluation=evaluation,
     )
     logging.info(f"Generation complete for project {request.project_id}.")
     
     return result
+
+
 # Adapter tool to generate project text from project ID
 @mcp.tool()
 async def generate_project_text_from_project_id(
@@ -123,24 +123,33 @@ async def generate_project_text_from_project_id(
     Adapter tool:
     - Reads project metadata from mcp://projects
     - Extracts semantic values
+    - Loads reference text from src/data/references/{Abkürzung}.txt if exists
     - Calls generate_project_text with a proper request
     """
     projects = projects_resource()
     project = next(
-        (p for p in projects if p["project_id"] == project_id),
+        (p for p in projects if p["project_id"].lower() == project_id.lower()),
         None,
     )
     if not project:
         raise ValueError(f"Project not found: {project_id}")
+    
     request = GenerateProjectTextInput(
         project_id=project["project_id"],
         project_description=project["Beschreibung"],
-        keywords= [],
+        keywords=extract_keywords(project),
         target_audience=["faculty", "industry"],
         languages=["de", "en"],
         source_type="excel", 
     )
-    # reference_text=project.get("Referenztext") --- IGNORE ---, assuming the Excel sheet does not contain a human written project description for evaluation purposes. The evaluation will be skipped if reference_text is None or empty.
-    # return await generate_project_text(request, reference_text=reference_text)
-    return await generate_project_text(request)
+
+    # Load reference text from storage
+    reference_text = load_reference_text(project_id)
+    if reference_text:
+        logging.info(f"Loaded reference text for {project_id}")
+    else:
+        logging.info(f"No reference file found for {project_id} — evaluation will be skipped")
+        
+
+    return await generate_project_text(request, reference_text=reference_text)
 
