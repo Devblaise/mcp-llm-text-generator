@@ -5,14 +5,16 @@ description = "MCP LLM text generator for research projects"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "mcp>=1.26.0",
+    "mcp[cli]>=1.26.0",
     "fastmcp>=2.14.4",
     "openai>=2.15.0",
-    "pandas>=3.0.0",
+    "pandas<3",
     "openpyxl>=3.1.5",
     "pydantic>=2.12.5",
     "python-dotenv>=1.2.1",
-    "deepeval>=3.8.3",
+    "sentence-transformers>=5.2.3",
+    "streamlit>=1.30",
+    "watchdog>=6.0.0",
 ]
 
 [project.optional-dependencies]
