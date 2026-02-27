@@ -60,7 +60,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 ### 2. Set up the project
 
 ```bash
-cd mcp-llm-text-generator
+cd BA Creation of internet entries with MCP Server
 uv venv
 uv sync
 ```
