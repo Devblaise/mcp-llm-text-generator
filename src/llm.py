@@ -5,17 +5,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 model="qwen3-30b-a3b-instruct-2507"
-#model="gpt-5-nano"
 
-#api_key=os.getenv("OPENAI_API_KEY")
-api_key=os.getenv("LLM_API_KEY")
-base_url=os.getenv("LLM_BASE_URL")
+
+api_key=os.getenv("GWDG_API_KEY")
+base_url=os.getenv("GWDG_API_BASE")
 
 
 client = AsyncOpenAI(api_key=api_key,
             base_url=base_url)
 
-# client = AsyncOpenAI(api_key=api_key)
 
 #-------------------------
 # LLM INTERFACE
