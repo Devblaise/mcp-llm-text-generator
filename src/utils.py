@@ -1,3 +1,11 @@
+def extract_keywords(project: dict) -> list[str]:
+    """Extract keywords from Kooperationspartner column."""
+    val = project.get("Kooperationspartner")
+    if val and str(val).strip() and str(val).lower() != "nan":
+        return [str(val).strip()]
+    return []
+
+
 def normalize_generated_entry(entry: dict) -> dict:
     """
     Ensures LLM output matches GeneratedText schema.
