@@ -22,7 +22,6 @@ def build_context(request: GenerateProjectTextInput) -> str:
     Your task is to rewrite the provided project description into
     clear, structured texts suitable for a university website.
 
-
     ────────────────────────────────────────
     SOURCE TEXT (EXCEL: Beschreibung)
     ────────────────────────────────────────
@@ -30,14 +29,14 @@ def build_context(request: GenerateProjectTextInput) -> str:
     Project description:
     {request.project_description}
 
-    Optional Keywords  (contextual hints only):
+    Keywords (must appear in the generated text):
     {keywords}
 
     IMPORTANT RULES:
     - The project description is the PRIMARY source of truth.
     - Preserve concrete entities, tools, technologies, and scenarios when present.
-    - Keywords are optional reinforcement only.
-    - Do NOT introduce new concepts based only on keywords.
+    - Integrate ALL provided keywords naturally into the generated text.
+    - Do NOT introduce new concepts beyond what keywords and description provide.
     - Prefer factual consistency over creativity.
 
     ────────────────────────────────────────
@@ -47,13 +46,12 @@ def build_context(request: GenerateProjectTextInput) -> str:
     Generate TWO texts:
 
     1. Project Page Description
-      - Length: 400–500 words
+      - Length: 450–500 words
       - Structure with clear section headers:
         • Motivation
         • Research Goals
         • Societal Relevance
         • Expected Impact
-        • Cooperation and Funding 
 
     2. Faculty Teaser
       - Length: 50–100 words
@@ -87,12 +85,17 @@ def build_context(request: GenerateProjectTextInput) -> str:
     STYLE GUIDELINES
     ────────────────────────────────────────
 
-    - Institutional university project style
-    - Clear and concrete wording
+    - Write for a PUBLIC-FACING university website, NOT an academic paper
+    - Use clear, simple language that non-experts can understand
+    - Avoid jargon — if technical terms are necessary, briefly explain them
+    - Short sentences and paragraphs for easy readability
+    - Active voice preferred over passive voice
+    - Engaging and informative tone, like a well-written magazine article
     - Preserve specific project details when available
-    - Neutral, factual tone
-    - No proposal language
+    - No academic phrasing (avoid "furthermore", "moreover", "it should be noted")
+    - No proposal language ("we aim to", "this project seeks to")
     - No unverifiable claims
+    - Target reading level: general public with interest in science/technology
 
     ────────────────────────────────────────
     OUTPUT FORMAT (STRICT JSON)
