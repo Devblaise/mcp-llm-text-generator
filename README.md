@@ -41,7 +41,8 @@ It also includes:
 
 - Python 3.12+
 - [uv](https://docs.astral.sh/uv/) package manager
-- Access to a GWDG API key (OpenAI-compatible endpoint)
+- Access to a GWDG API key (OpenAI-compatible endpoint) or Alternative API key (OPEN_AI, Gemini..)
+- GWDG key usage documentation (https://docs.hpc.gwdg.de/services/saia/index.html)
 
 ## Installation
 
