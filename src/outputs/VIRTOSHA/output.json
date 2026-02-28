@@ -1,0 +1,30 @@
+{
+  "project_page": {
+    "de": {
+      "text": "### Motivation\nChirurgische Ausbildung steht vor der Herausforderung, realistische Übungsbedingungen zu schaffen, ohne Patient*innen zu gefährden. Traditionelle Methoden wie Präparate oder Simulatoren haben Grenzen in der Wiedergabe von Gewebeverhalten und haptischem Feedback. Um diese Lücke zu schließen, entwickeln wir eine Virtual-Reality-Trainingsumgebung, die echte Operationsszenarien analysiert und in eine immersive, interaktive Lernumgebung umsetzt. Besonders wichtig ist die präzise Simulation von Hart- und Weichgewebe sowie die Integration von haptischem Feedback, das den Druck, Widerstand und Bewegung von Werkzeugen realitätsnah wiedergibt.\n\n### Forschungsziele\nDas Projekt zielt darauf ab, eine vollständige VR-Trainingsumgebung zu schaffen, die sowohl für manuelle als auch werkzeuggeführte Eingriffe geeignet ist. Dazu werden reale Operationen an Patient*innen und Präparaten dokumentiert und in digitale Schrittfolgen umgewandelt. Diese werden in einem Autorentool miteinander verknüpft, um individuelle Übungsabläufe zu erstellen. Eine zentrale Komponente ist die Entwicklung einer Bohr- und Schraubensimulation, die mit Haptik-Armen umgesetzt wird. Diese ermöglicht realistische Manipulationen und haptische Rückmeldungen. Die Gewebe- und Werkzeugdarstellung wird durch hochauflösendes Rendering und physikalisch basierte Simulationen optimiert, um maximale Immersion zu gewährleisten.\n\n### Gesellschaftliche Relevanz\nDurch die Nutzung von VR und Haptik wird die chirurgische Ausbildung sicherer, kosteneffizienter und zugänglicher. Lernende können Fehler ohne Risiko für Patient*innen üben. Die enge Zusammenarbeit mit dem Universitätsklinikum Bonn stellt sicher, dass die Trainingsinhalte klinisch relevant und praxisnah sind. Partner wie Haption GmbH und MindPort GmbH bringen Expertise in Haptik-Technologie und Softwareentwicklung ein, was die technische Qualität und Nutzbarkeit der Plattform sichert.\n\n### Erwarteter Nutzen\nDie entwickelte Umgebung wird als leistungsfähiges Lehrmittel in der medizinischen Ausbildung eingesetzt. Sie fördert die Fähigkeit, komplexe Eingriffe sicher und präzise durchzuführen. Langfristig trägt sie zur Verbesserung der chirurgischen Qualität und Patientensicherheit bei. Die Plattform ist skalierbar und kann auf verschiedene chirurgische Fachgebiete angepasst werden.",
+      "reading_level": "intermediate",
+      "word_count": 487
+    },
+    "en": {
+      "text": "### Motivation\nSurgical training faces the challenge of providing realistic practice conditions without risking patient safety. Traditional methods such as cadavers or basic simulators have limitations in accurately representing tissue behavior and haptic feedback. To close this gap, we are developing a virtual reality (VR) training environment that analyzes real surgical procedures on patients and specimens, transforming them into immersive, interactive learning experiences. A key focus is the precise simulation of hard and soft tissues, combined with realistic haptic feedback that replicates tool pressure, resistance, and movement.\n\n### Research Goals\nThe project aims to create a complete VR training platform suitable for both manual and instrument-assisted surgical procedures. Real operations performed on patients and specimens are recorded and converted into digital step-by-step workflows. These workflows are connected using an authoring tool, enabling customized training scenarios. A central component is the development of a drilling and screwing simulation, implemented with haptic arms to deliver realistic tool manipulation and tactile responses. The tissue and instrument visualization is enhanced through high-fidelity rendering and physics-based simulation, ensuring maximum immersion.\n\n### Societal Relevance\nVR and haptics enable safer, more cost-effective, and accessible surgical education. Trainees can practice complex procedures without risk to patients. Close collaboration with the Universitätsklinikum Bonn ensures clinical relevance and practical applicability. Partners Haption GmbH and MindPort GmbH contribute expertise in haptic technology and software development, ensuring high technical quality and usability of the platform.\n\n### Expected Impact\nThe resulting system will serve as a powerful educational tool in medical training. It enhances the ability to perform complex procedures safely and accurately. In the long term, it contributes to improved surgical quality and patient safety. The platform is scalable and adaptable to various surgical specialties.",
+      "reading_level": "intermediate",
+      "word_count": 486
+    }
+  },
+  "faculty_teaser": {
+    "de": {
+      "text": "Wir entwickeln eine VR-Trainingsumgebung mit haptischem Feedback für chirurgische Eingriffe an Hart- und Weichgewebe. In Kooperation mit dem Universitätsklinikum Bonn, Haption GmbH und MindPort GmbH entsteht ein realistisches, interaktives Lernsystem, das durch physikalisch basierte Simulation und haptische Rückmeldungen Immersion ermöglicht. Die Plattform unterstützt die chirurgische Ausbildung mit sicheren, skalierbaren und praxisnahen Übungen.",
+      "reading_level": "intermediate",
+      "word_count": 78
+    },
+    "en": {
+      "text": "We are developing a VR training environment with haptic feedback for surgical procedures on hard and soft tissues. In collaboration with Universitätsklinikum Bonn, Haption GmbH, and MindPort GmbH, we are creating a realistic, interactive learning system enabled by physics-based simulation and haptic feedback. The platform supports surgical education through safe, scalable, and clinically relevant training exercises.",
+      "reading_level": "intermediate",
+      "word_count": 75
+    }
+  },
+  "used_keywords": [
+    "Haption GmbH, MindPort GmbH, Universitätsklinikum Bonn"
+  ],
+  "warnings": []
+}

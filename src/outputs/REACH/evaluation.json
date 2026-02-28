@@ -1,0 +1,33 @@
+{
+  "project_id": "REACH",
+  "semantic_similarity": 0.8,
+  "embedding_details": {
+    "model": "paraphrase-multilingual-MiniLM-L12-v2",
+    "dimensions": 384,
+    "generated_embedding_sample": [
+      -0.0521,
+      -0.1676,
+      0.0729,
+      -0.178,
+      -0.1962,
+      -0.1028,
+      -0.0439,
+      -0.0745,
+      0.0806,
+      0.2231
+    ],
+    "reference_embedding_sample": [
+      -0.1962,
+      -0.1722,
+      0.0115,
+      -0.1829,
+      -0.1518,
+      -0.1562,
+      0.088,
+      0.0605,
+      0.1224,
+      0.1409
+    ]
+  },
+  "reference_excerpt": "Roboter spielen eine zentrale Rolle in der modernen Industrie. Sie werden vor allem für Aufgaben eingesetzt, die entweder körperlich belastend, gefährlich für den Menschen oder stark repetitiv sind und eine hohe Geschwindigkeit, Präzision sowie Effizienz erfordern. In klassischen Industrieumgebungen"
+}
