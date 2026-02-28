@@ -12,14 +12,17 @@ This project provides two MCP tools:
 It also includes:
 
 - **Semantic evaluation** using sentence-transformers to compare generated text against human-written references.
-- **Streamlit dashboard** for viewing results, evaluation scores, and downloading outputs.
+- **FastAPI dashboard** for viewing results, evaluation scores, and downloading outputs.
 
 ## Project Structure
 
 ```
-├── dashboard.py           # Streamlit dashboard for viewing results
+├── app.py                 # FastAPI dashboard application
 ├── main.py                # Alternative entrypoint
 ├── pyproject.toml         # Project dependencies
+├── templates/
+│   ├── index.html         # Dashboard landing page
+│   └── project.html       # Project detail view
 ├── src/
 │   ├── server.py          # MCP server entrypoint
 │   ├── mcp_app.py         # FastMCP instance
@@ -46,7 +49,16 @@ It also includes:
 
 ## Installation
 
-### 1. Install uv
+### 1. Set up the project
+
+```bash
+Go to repo → (https://github.com/Devblaise/Creation-of-internet-entries-with-MCP-Server)
+fork repo or Download ZIP
+Extract the ZIP to a folder if Downloaded
+```
+
+
+### 2. Install uv
 
 **macOS/Linux:**
 ```bash
@@ -56,9 +68,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 **Windows (PowerShell):**
 ```powershell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+or
+
+$env:Path = 
 ```
 
-### 2. Set up the project
+### 3. Set up the project
 
 ```bash
 cd BA Creation of internet entries with MCP Server
@@ -66,7 +82,7 @@ uv venv
 uv sync
 ```
 
-### 3. Configure environment variables
+### 4. Configure environment variables
 
 Create a `.env` file in the project root:
 
@@ -100,15 +116,15 @@ The project ID corresponds to the **Abkürzung** column in the Excel file. The l
 ### View results in the dashboard
 
 ```bash
-uv run streamlit run dashboard.py
+uv run uvicorn app:app --reload
 ```
 
-Opens at `http://localhost:8501` with:
+Opens at `http://localhost:8000` with:
 
 - Side-by-side German/English generated texts
-- Word counts and reading levels
 - Semantic similarity evaluation scores
-- Downloadable JSON outputs
+- Reference text comparison
+- Downloadable JSON outputs and reference files
 
 ## Evaluation
 
@@ -125,6 +141,6 @@ Place reference texts as `.txt` files in `src/data/references/` named by the pro
 - **FastMCP** — MCP server framework
 - **OpenAI API** (GWDG endpoint) — Text generation
 - **sentence-transformers** — Semantic similarity evaluation
-- **Streamlit** — Results dashboard
+- **FastAPI + Jinja2** — Results dashboard
 - **Pandas** — Excel data processing
 - **Pydantic** — Input/output validation
