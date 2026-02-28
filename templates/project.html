@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project_id }} – MCP Text Generator</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <h2>Projects</h2>
+        {% for p in projects %}
+        <a href="/project/{{ p }}" {% if p == project_id %}class="active"{% endif %}>{{ p }}</a>
+        {% endfor %}
+        <div class="count">{{ projects|length }} projects</div>
+
+        <div class="downloads">
+            <h3>Download</h3>
+            <a class="dl-btn" href="/api/project/{{ project_id }}/output">Output JSON</a>
+            {% if evaluation %}
+            <a class="dl-btn" href="/api/project/{{ project_id }}/evaluation">Evaluation</a>
+            {% endif %}
+            {% if reference %}
+            <a class="dl-btn" href="/api/project/{{ project_id }}/reference">Reference</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main">
+        <div class="header">
+            <h1>{{ project_id }}</h1>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('page')">Project Page</div>
+            <div class="tab" onclick="switchTab('teaser')">Faculty Teaser</div>
+            <div class="tab" onclick="switchTab('eval')">Evaluation</div>
+            <div class="tab" onclick="switchTab('ref')">Reference Text</div>
+        </div>
+
+        <!-- Tab: Project Page -->
+        <div id="tab-page" class="tab-content active">
+            {% if output.project_page %}
+            <div class="columns">
+                {% for lang, blocks in project_page_blocks.items() %}
+                <div class="card">
+                    <h3>{{ "German" if lang == "de" else "English" }}</h3>
+                    <div class="metrics">
+                        <div class="metric">
+                            <div class="value">{{ output.project_page[lang].word_count }}</div>
+                            <div class="label">Words</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">{{ output.project_page[lang].reading_level|capitalize }}</div>
+                            <div class="label">Level</div>
+                        </div>
+                    </div>
+                    <div class="text-content">
+                        {% for block in blocks %}
+                            {% if block.type == 'header' %}
+                                <h3 class="section-header"><span class="section-lead">{{ block.lead }}</span>{% if block.rest %} {{ block.rest }}{% endif %}</h3>
+                                {% if block.body %}
+                                    <p>{{ block.body }}</p>
+                                {% endif %}
+                            {% else %}
+                                <p>{{ block.text }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="info">No project page texts available.</div>
+            {% endif %}
+        </div>
+
+        <!-- Tab: Faculty Teaser -->
+        <div id="tab-teaser" class="tab-content">
+            {% if output.faculty_teaser %}
+            <div class="columns">
+                {% for lang, entry in output.faculty_teaser.items() %}
+                <div class="card">
+                    <h3>{{ "German" if lang == "de" else "English" }}</h3>
+                    <div class="metrics">
+                        <div class="metric">
+                            <div class="value">{{ entry.word_count }}</div>
+                            <div class="label">Words</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">{{ entry.reading_level|capitalize }}</div>
+                            <div class="label">Level</div>
+                        </div>
+                    </div>
+                    <div class="text-content">{{ entry.text }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="info">No faculty teaser texts available.</div>
+            {% endif %}
+        </div>
+
+        <!-- Tab: Evaluation -->
+        <div id="tab-eval" class="tab-content">
+            {% if evaluation and evaluation.semantic_similarity is defined %}
+            <div class="card">
+                <h3>Semantic Similarity</h3>
+                {% set score = evaluation.semantic_similarity %}
+                {% if score >= 0.85 %}
+                    {% set level = "very-high" %}
+                    {% set level_text = "Very High" %}
+                {% elif score >= 0.70 %}
+                    {% set level = "high" %}
+                    {% set level_text = "High" %}
+                {% elif score >= 0.50 %}
+                    {% set level = "moderate" %}
+                    {% set level_text = "Moderate" %}
+                {% else %}
+                    {% set level = "low" %}
+                    {% set level_text = "Low" %}
+                {% endif %}
+
+                <div class="score-display">
+                    <div class="score-circle score-{{ level }}">{{ "%.2f"|format(score) }}</div>
+                    <div class="score-label">
+                        <strong>{{ level_text }} similarity</strong><br>
+                        Cosine similarity between generated and reference text embeddings.
+                        1.0 = identical meaning, 0.0 = no semantic overlap.
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill score-{{ level }}" style="width: {{ (score * 100)|int }}%"></div>
+                </div>
+
+                {% if evaluation.embedding_details %}
+                <div class="detail-row">
+                    <div>Model: <span>{{ evaluation.embedding_details.model }}</span></div>
+                    <div>Dimensions: <span>{{ evaluation.embedding_details.dimensions }}</span></div>
+                </div>
+
+                <details>
+                    <summary>Embedding samples (first 10 dimensions)</summary>
+                    <pre>Generated: {{ evaluation.embedding_details.generated_embedding_sample }}
+Reference: {{ evaluation.embedding_details.reference_embedding_sample }}</pre>
+                </details>
+                {% endif %}
+            </div>
+
+            {% if evaluation.reference_excerpt %}
+            <div class="card">
+                <h3>Reference Excerpt</h3>
+                <div class="text-content">{{ evaluation.reference_excerpt }}</div>
+            </div>
+            {% endif %}
+
+            {% else %}
+            <div class="info">
+                No evaluation data for this project.
+                Place a reference text in src/data/references/ and regenerate.
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tab: Reference Text -->
+        <div id="tab-ref" class="tab-content">
+            {% if reference %}
+            <div class="card">
+                <h3>Human-Written Reference</h3>
+                <div class="text-content">{{ reference }}</div>
+                <div class="detail-row" style="margin-top: 1rem;">
+                    <div>{{ reference.split()|length }} words</div>
+                </div>
+            </div>
+            {% else %}
+            <div class="info">
+                No reference file found for {{ project_id }}.
+                Add a .txt file to src/data/references/ to enable evaluation.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function switchTab(name) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
+            document.getElementById(`tab-${name}`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
