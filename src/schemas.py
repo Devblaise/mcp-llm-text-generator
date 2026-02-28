@@ -11,14 +11,12 @@ class LanguageCode(str, Enum):
     de = "de"
 
 class TargetAudience(str, Enum):
-    faculty = "faculty"
     industry = "industry"
     general_public = "general_public"
 
 class ReadingLevel(str, Enum):
     beginner = "beginner"
     intermediate = "intermediate"
-    advanced = "advanced"
 
 class SourceType(str, Enum):
     database = "database"
