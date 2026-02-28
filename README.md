@@ -17,15 +17,15 @@ It also includes:
 ## Project Structure
 
 ```
-├── app.py                 # FastAPI dashboard application
+├── app.py                 # Data outputs UI app
 ├── main.py                # Alternative entrypoint
 ├── pyproject.toml         # Project dependencies
 ├── templates/
-│   ├── index.html         # Dashboard landing page
+│   ├── index.html         # UI landing page
 │   └── project.html       # Project detail view
 ├── src/
 │   ├── server.py          # MCP server entrypoint
-│   ├── mcp_app.py         # FastMCP instance
+│   ├── mcp_app.py         # MCP instance
 │   ├── tools.py           # MCP tool definitions
 │   ├── resources.py       # MCP resource (Excel reader)
 │   ├── context.py         # Prompt builder
@@ -137,6 +137,6 @@ Place reference texts as `.txt` files in `src/data/references/` named by the pro
 - **FastMCP** — MCP server framework
 - **OpenAI API** (GWDG endpoint) — Text generation
 - **sentence-transformers** — Semantic similarity evaluation
-- **FastAPI + Jinja2** — Results dashboard
+- **FastAPI + Jinja2** — Results output data dashboard
 - **Pandas** — Excel data processing
 - **Pydantic** — Input/output validation
