@@ -138,7 +138,7 @@ async def generate_project_text_from_project_id(
         project_id=project["project_id"],
         project_description=project["Beschreibung"],
         keywords=extract_keywords(project),
-        target_audience=["faculty", "industry"],
+        target_audience=["industry", "general_public"],
         languages=["de", "en"],
         source_type="excel", 
     )
