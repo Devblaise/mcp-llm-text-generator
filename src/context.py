@@ -17,9 +17,10 @@ def build_context(request: GenerateProjectTextInput) -> str:
     keywords = ", ".join(request.keywords) if request.keywords else "None"
 
     prompt = f"""
-    You are writing official university project page content.
+    You are a science communicator expert writing for an educated general audience 
+    with no specialist background. 
 
-    Your task is to rewrite the provided project description into
+    Your task is to rewrite the provided project description  into
     clear, structured texts suitable for a university website.
 
     ────────────────────────────────────────
@@ -46,7 +47,7 @@ def build_context(request: GenerateProjectTextInput) -> str:
     Generate TWO texts:
 
     1. Project Page Description
-      - Length: 450–500 words
+      - Length: 400–500 words
       - Structure with clear section headers:
         • Motivation
         • Research Goals
@@ -77,7 +78,6 @@ def build_context(request: GenerateProjectTextInput) -> str:
     For EACH text choose:
     - beginner
     - intermediate
-    - advanced
 
     Select based on audience and technical density.
 
