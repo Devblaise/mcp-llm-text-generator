@@ -68,10 +68,6 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 **Windows (PowerShell):**
 ```powershell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-or
-
-$env:Path = 
 ```
 
 ### 3. Set up the project
