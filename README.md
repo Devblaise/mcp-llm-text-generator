@@ -118,7 +118,7 @@ This opens the MCP Inspector at `http://localhost:6274` where you can test the t
 ```bash
 uvicorn app:app 
 ```
-Opens at `http://localhost:8000`.
+Opens at `http://localhost:8000`. where you view generated outputs
 
 
 
