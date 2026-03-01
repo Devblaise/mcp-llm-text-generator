@@ -81,10 +81,10 @@ cd "BA Creation of internet entries with MCP Server"
 uv venv
 ```
 ```bash
-.venv\Scripts\activate  # for windows
+.venv\Scripts\activate   # windows
 ```
 ```bash
-source .venv/bin/activate  # mac and linux users
+source .venv/bin/activate  # linux 
 ```
 ```
 uv sync
@@ -109,19 +109,25 @@ uv run mcp dev src/server.py
 This opens the MCP Inspector at `http://localhost:6274` where you can test the tools interactively.
 
 
+### View results in the dashboard
+
+```bash
+uv run uvicorn app:app 
+```
+Opens at `http://localhost:8000`.
+
 
 
 ### With Docker 
 **(alternative — avoids OS/Windows compatibility issues that can occur with uv):**
-```
-macOS: Install Docker Desktop for Mac — it runs a lightweight Linux VM behind the scenes.
-```
+
 ```
 Linux: You only need the Docker Engine (sudo apt install docker.io or similar) — no Desktop app required.
 ```
 ```
 Windows: Install Docker Desktop for Windows — uses WSL 2 or Hyper-V.
 ```
+
 Once installed, verify with: `docker --version`
 
 ```bash
@@ -135,15 +141,7 @@ docker build -t mcp-text-generator .
 docker build -t mcp-text-generator .
 ```
 
-### Run the FastAPI dashboard
-
-```bash
-docker run -p 8000:8000 --env-file .env mcp-text-generator
-```
-
-Opens at `http://localhost:8000`.
-
-### Run the MCP server instead
+### Run the MCP server (with Inspector UI) 
 
 ```bash
 docker run -p 6274:6274 --env-file .env mcp-text-generator \
@@ -162,13 +160,16 @@ In the MCP Inspector, call the `generate_project_text_from_project_id` tool with
 
 The project ID corresponds to the **Abkürzung** column in the Excel file. The lookup is case-insensitive.
 
-### View results in the dashboard
+### Run to display Output UI dashboard
 
 ```bash
-uv run uvicorn app:app --reload
+docker run -p 8000:8000 --env-file .env mcp-text-generator
 ```
 
-Opens at `http://localhost:8000` with:
+Opens at `http://localhost:8000`.
+
+
+### View results in the dashboard showing
 
 - Side-by-side German/English generated texts
 - Semantic similarity evaluation scores
