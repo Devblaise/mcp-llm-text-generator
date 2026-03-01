@@ -73,7 +73,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 
 ### 3. Set up the project
 
-**With uv
+**With uv**
 ```bash
 cd "BA Creation of internet entries with MCP Server"
 ```
