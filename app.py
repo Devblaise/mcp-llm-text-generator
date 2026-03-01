@@ -49,7 +49,7 @@ def _parse_text_blocks(text: str) -> list[dict]:
     """Convert raw generated text into a list of rendering blocks.
 
     Blocks have shape:
-      - {'type': 'header', 'lead': 'First', 'rest': 'Remaining', 'body': 'optional body'}
+      - {'type': 'header', 'title': 'Section Title', 'body': 'optional body'}
       - {'type': 'para', 'text': '...'}
     """
     if not text:
@@ -66,11 +66,7 @@ def _parse_text_blocks(text: str) -> list[dict]:
             else:
                 header_line, body = content, ''
             header_line = header_line.strip()
-            if ' ' in header_line:
-                first, rest = header_line.split(' ', 1)
-            else:
-                first, rest = header_line, ''
-            blocks.append({'type': 'header', 'lead': first, 'rest': rest, 'body': body.strip()})
+            blocks.append({'type': 'header', 'title': header_line, 'body': body.strip()})
         else:
             blocks.append({'type': 'para', 'text': s.replace('\n', ' ')})
     return blocks
@@ -103,11 +99,19 @@ async def project_detail(request: Request, project_id: str):
             text = entry.get('text', '') if isinstance(entry, dict) else (entry or '')
             project_page_blocks[lang] = _parse_text_blocks(text)
 
+    # Same parsing for faculty teaser
+    faculty_teaser_blocks = {}
+    if output.get('faculty_teaser'):
+        for lang, entry in output['faculty_teaser'].items():
+            text = entry.get('text', '') if isinstance(entry, dict) else (entry or '')
+            faculty_teaser_blocks[lang] = _parse_text_blocks(text)
+
     return templates.TemplateResponse("project.html", {
         "request": request,
         "project_id": project_id,
         "output": output,
         "project_page_blocks": project_page_blocks,
+        "faculty_teaser_blocks": faculty_teaser_blocks,
         "evaluation": evaluation,
         "reference": reference,
         "projects": get_projects(),
