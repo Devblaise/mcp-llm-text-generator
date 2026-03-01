@@ -107,7 +107,7 @@ GWDG_API_BASE=your_api_base_url_here
 ### Run the MCP server (with Inspector UI)
 
 ```bash
-uv run mcp dev src/server.py
+mcp dev src/server.py
 ```
 
 This opens the MCP Inspector at `http://localhost:6274` where you can test the tools interactively.
@@ -116,7 +116,7 @@ This opens the MCP Inspector at `http://localhost:6274` where you can test the t
 ### View results in the dashboard
 
 ```bash
-uv run uvicorn app:app 
+uvicorn app:app 
 ```
 Opens at `http://localhost:8000`.
 
