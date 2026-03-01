@@ -1,0 +1,31 @@
+{
+  "project_page": {
+    "de": {
+      "text": "### Motivation\nMit der Einführung von 5G-Mobilfunknetzen und Open Radio Access Network (Open RAN) entstehen neue Möglichkeiten für schnelle und flexible Kommunikation. Doch diese Technologien bringen auch neue Sicherheitsrisiken mit sich. Angreifer können nun über verschiedene Komponenten in Open RAN-Netzen eindringen. Aktuelle Sicherheitsmaßnahmen konzentrieren sich hauptsächlich auf die Verhinderung und Erkennung von Angriffen. Ein kritischer Bereich, der bisher wenig erforscht ist, ist die Reaktion auf IT-Sicherheitsvorfälle und die IT-Forensik – also die Untersuchung digitaler Spuren nach einem Angriff. Es fehlen klare Methoden und Leitlinien, um Sicherheitsvorfälle in Open RAN-Umgebungen effektiv zu behandeln.\n\n### Forschungsziele\nIm Projekt 5G-FORAN wird eine umfassende Methode entwickelt, um IT-Sicherheitsvorfälle in Open RAN-Netzen forensisch zu analysieren, zu behandeln und zu beheben. Die Forschung gliedert sich in zwei Hauptteile: 5G-FORAN-ATTACK simuliert aktive Angriffe auf Open-RAN-Komponenten, um Schwachstellen zu identifizieren. 5G-FORAN-DFIR konzentriert sich auf die Digital Forensics and Incident Response (DFIR), also die strukturierte Reaktion auf Sicherheitsvorfälle. Diese Arbeit wird praktisch in einer Simulationsumgebung umgesetzt, um realistische Szenarien nachzustellen.\n\n### Gesellschaftliche Relevanz\nSichere Mobilfunknetze sind entscheidend für die Infrastruktur moderner Gesellschaften – von der Telemedizin bis zur intelligenten Stadt. Ein Sicherheitsvorfall in einem Open RAN-Netz könnte Daten stehlen, Dienste stören oder sogar kritische Systeme gefährden. Durch die Entwicklung klarer forensischer Vorgehensweisen wird die Fähigkeit gestärkt, Angriffe zu untersuchen und zu verhindern. Dies schützt nicht nur Unternehmen, sondern auch Bürger vor digitalen Bedrohungen.\n\n### Erwarteter Einfluss\nDas Projekt trägt dazu bei, die Cybersicherheit von 5G-Netzen zu stärken. Die Ergebnisse liefern praktische Werkzeuge und Richtlinien für Betreiber, Sicherheitsexperten und Politik. Die Zusammenarbeit mit der PROCYDE GmbH und dem Institute of Computer and Communication Technology sorgt für eine enge Verbindung zwischen Forschung und Praxis. Die Methoden können in der Zukunft auch auf andere moderne Netztechnologien übertragen werden.",
+      "reading_level": "intermediate",
+      "word_count": 487
+    },
+    "en": {
+      "text": "### Motivation\nThe rollout of 5G mobile networks and Open Radio Access Network (Open RAN) brings faster, more flexible communication. But these technologies also open new doors for cyberattacks. Attackers can now target various components in Open RAN systems. Current security efforts mainly focus on preventing and detecting threats. One under-researched area is how to respond to IT security incidents and conduct digital forensics – the investigation of digital traces after an attack. Clear methods and guidelines are still missing for handling security incidents in Open RAN environments.\n\n### Research Goals\nThe 5G-FORAN project develops a comprehensive approach to forensically analyze, respond to, and resolve IT security incidents in Open RAN networks. The research is split into two main parts: 5G-FORAN-ATTACK simulates active attacks on Open-RAN components to uncover vulnerabilities. 5G-FORAN-DFIR focuses on Digital Forensics and Incident Response (DFIR), providing a structured way to react to security breaches. The work is tested in a practical simulation environment to replicate real-world scenarios.\n\n### Societal Relevance\nSecure mobile networks are vital for modern society – from telemedicine to smart cities. A security breach in an Open RAN network could lead to data theft, service disruption, or even threats to critical infrastructure. By creating clear forensic procedures, the project strengthens the ability to investigate and prevent attacks. This protects not only businesses but also citizens from digital risks.\n\n### Expected Impact\nThe project enhances the cybersecurity of 5G networks. Its results provide practical tools and guidelines for network operators, security experts, and policymakers. Collaboration with PROCYDE GmbH and the Institute of Computer and Communication Technology ensures strong links between research and real-world application. The methods developed may also be adapted for other modern network technologies in the future.",
+      "reading_level": "intermediate",
+      "word_count": 486
+    }
+  },
+  "faculty_teaser": {
+    "de": {
+      "text": "Das Projekt 5G-FORAN untersucht die Cybersicherheit von Open RAN-Netzen und entwickelt Methoden zur forensischen Analyse und Reaktion auf Sicherheitsvorfälle. In Kooperation mit der PROCYDE GmbH und dem Institute of Computer and Communication Technology wird eine praktische Lösung für moderne Mobilfunkinfrastrukturen erarbeitet.",
+      "reading_level": "intermediate",
+      "word_count": 64
+    },
+    "en": {
+      "text": "The 5G-FORAN project investigates cybersecurity in Open RAN networks and develops methods for forensic analysis and incident response. In collaboration with PROCYDE GmbH and the Institute of Computer and Communication Technology, it creates practical solutions for modern mobile network infrastructures.",
+      "reading_level": "intermediate",
+      "word_count": 58
+    }
+  },
+  "used_keywords": [
+    "PROCYDE GmbH",
+    "Institute of Computer and Communication Technology"
+  ],
+  "warnings": []
+}

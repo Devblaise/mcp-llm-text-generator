@@ -1,0 +1,31 @@
+{
+  "project_page": {
+    "de": {
+      "text": "### Motivation\nDas Team Escuderia Colonia nahm an der VDI Autonomous Driving Challenge teil – einer herausfordernden Wettbewerbsserie, die die Zukunft autonomer Fahrzeuge in der Industrie vorwegnimmt. Sieben Teams trafen sich an der Hochschule München, wo die Strecke unter einem Glasdach lag. Dadurch veränderten sich die Lichtverhältnisse ständig – von dunklen Ecken bis zu hellen Bereichen. Die Fahrzeuge mussten sich autonom und mit hoher Geschwindigkeit durch diese dynamische Umgebung bewegen. Das Team setzte auf Eigenentwicklung: Es baute ein vollständig eigenes Fahrzeug, inklusive Mechanik, Elektronik und Software. Im Gegensatz zu den anderen Teilnehmern verwendete es kein offizielles, hochprofessionelles Wettbewerbsauto, sondern ein selbst konstruiertes Fahrzeug mit einem Raspberry-Pi als zentralem Rechner.\n\n### Forschungsziele\nDas Hauptziel war es, ein vollständig autonomes Fahrzeug zu entwickeln, das ohne kommerzielle Plattformen auskommt. Dabei ging es nicht nur um die technische Umsetzung, sondern auch um die Integration von Sensoren, Steuerungsalgorithmen und Echtzeit-Entscheidungsprozessen. Das Team testete seine Lösung unter realistischen Bedingungen, die sich durch wechselnde Lichtverhältnisse und hohe Geschwindigkeiten auszeichneten. Der Einsatz des Raspberry-Pi zeigte, dass leistungsstarke Autonomie auch mit kostengünstigen Komponenten möglich ist. Die Ergebnisse wurden direkt im Wettbewerb validiert.\n\n### Gesellschaftliche Relevanz\nDie Entwicklung kostengünstiger, autonomer Fahrzeuge hat großes Potenzial für die Zukunft der Mobilität. Insbesondere in der Industrie und im Logistikbereich könnten solche Systeme effizienter und flexibler eingesetzt werden. Das Projekt zeigt, dass innovative Lösungen nicht immer auf teuren Technologien basieren müssen. Es fördert den Zugang zu Forschung und Entwicklung für Studierende und kleine Teams.\n\n### Erwarteter Einfluss\nDas Team erreichte den 4. Platz – eine Verbesserung gegenüber dem Vorjahr. Obwohl es in den letzten Tests den professionellen Fahrzeugen unterlag, war es mit seinem selbstgebauten Auto genauso schnell wie die Siegerfahrzeuge. Dies unterstreicht die hohe Qualität der Arbeit des Teams. Die Zusammenarbeit mit dem Institut für Automation & Industrial IT an der Hochschule München war entscheidend für den Erfolg. Die Ergebnisse tragen zur Weiterentwicklung von autonomen Systemen bei und inspirieren zukünftige Projekte in der Automatisierungstechnik.",
+      "reading_level": "intermediate",
+      "word_count": 498
+    },
+    "en": {
+      "text": "### Motivation\nThe Escuderia Colonia team participated in the VDI Autonomous Driving Challenge – a demanding competition that showcases the future of autonomous vehicles in industry. Seven teams gathered at the Munich University of Applied Sciences, where the track was covered by a glass roof. This caused constantly changing lighting conditions, from dark corners to bright areas. The vehicles had to navigate autonomously at high speed through this dynamic environment. The team focused on full self-development: building a complete autonomous vehicle from scratch, including mechanics, electronics, and software. Unlike other participants, they did not use the official, high-end competition car. Instead, they relied on a self-built vehicle powered by a Raspberry Pi.\n\n### Research Goals\nThe main goal was to develop a fully autonomous vehicle without relying on commercial platforms. This involved integrating sensors, control algorithms, and real-time decision-making processes. The team tested their solution under realistic conditions, facing variable lighting and high speeds. Using a Raspberry Pi demonstrated that powerful autonomy is achievable even with low-cost components. Results were validated directly during the competition.\n\n### Societal Relevance\nDeveloping affordable autonomous vehicles holds great potential for the future of mobility. Especially in industry and logistics, such systems could operate more efficiently and flexibly. This project proves that innovative solutions don’t always require expensive technology. It opens doors to research and development for students and small teams.\n\n### Expected Impact\nThe team achieved 4th place – an improvement from the previous year. Although it lost to professional vehicles in the final tests, their self-built car matched the speed of the top two finishers. This highlights the high quality of their work. Collaboration with the Institut für Automation & Industrial IT at the university was crucial for success. The results contribute to advancing autonomous systems and inspire future projects in automation technology.",
+      "reading_level": "intermediate",
+      "word_count": 496
+    }
+  },
+  "faculty_teaser": {
+    "de": {
+      "text": "Das Team Escuderia Colonia nahm an der VDI Autonomous Driving Challenge teil und entwickelte ein eigenes autonomes Fahrzeug – inklusive Mechanik, Elektronik und Software. Mit einem Raspberry-Pi als Rechner erreichte es den 4. Platz, obwohl es kein offizielles Wettbewerbsauto nutzte. Die Arbeit wurde durch das Institut für Automation & Industrial IT unterstützt und zeigt, dass innovative Technologien auch mit kostengünstigen Komponenten möglich sind.",
+      "reading_level": "intermediate",
+      "word_count": 78
+    },
+    "en": {
+      "text": "The Escuderia Colonia team competed in the VDI Autonomous Driving Challenge by building a fully autonomous vehicle from scratch – including mechanics, electronics, and software. Using only a Raspberry Pi, they achieved 4th place, despite not using the official competition car. Supported by the Institut für Automation & Industrial IT, the project proves that innovative technology is possible with low-cost components.",
+      "reading_level": "intermediate",
+      "word_count": 76
+    }
+  },
+  "used_keywords": [
+    "VDI",
+    "Institut für Automation & Industrial IT"
+  ],
+  "warnings": []
+}

@@ -1,20 +1,20 @@
 {
   "project_id": "REACH",
-  "semantic_similarity": 0.7745,
+  "semantic_similarity": 0.7914,
   "embedding_details": {
     "model": "paraphrase-multilingual-MiniLM-L12-v2",
     "dimensions": 384,
     "generated_embedding_sample": [
-      0.0013,
-      -0.1357,
-      0.0846,
-      -0.1417,
-      -0.2027,
-      -0.1457,
-      -0.1853,
-      -0.072,
-      0.1129,
-      0.2787
+      -0.1036,
+      -0.1789,
+      0.0411,
+      -0.1748,
+      -0.2037,
+      -0.1104,
+      -0.1134,
+      -0.0343,
+      0.106,
+      0.2152
     ],
     "reference_embedding_sample": [
       -0.1962,

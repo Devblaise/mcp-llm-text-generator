@@ -1,20 +1,20 @@
 {
   "project_id": "VIRTOSHA",
-  "semantic_similarity": 0.8822,
+  "semantic_similarity": 0.8422,
   "embedding_details": {
     "model": "paraphrase-multilingual-MiniLM-L12-v2",
     "dimensions": 384,
     "generated_embedding_sample": [
-      0.0115,
-      0.069,
-      -0.1709,
-      -0.0061,
-      -0.1788,
-      0.0272,
-      -0.1375,
-      -0.0124,
-      -0.0868,
-      0.173
+      -0.043,
+      0.0563,
+      -0.2113,
+      -0.0476,
+      -0.2502,
+      -0.0169,
+      -0.1755,
+      0.0242,
+      -0.1156,
+      0.2891
     ],
     "reference_embedding_sample": [
       -0.0642,
