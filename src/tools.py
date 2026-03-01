@@ -114,7 +114,7 @@ async def generate_project_text(
     return result
 
 
-# Adapter tool to generate project text from project ID
+# Adapter tool wrapper to generate project text from project ID
 @mcp.tool()
 async def generate_project_text_from_project_id(
     project_id: str,
