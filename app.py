@@ -12,7 +12,7 @@ OUTPUTS_DIR = Path(__file__).parent / "src" / "outputs"
 REFERENCES_DIR = Path(__file__).parent / "src" / "data" / "references"
 
 app = FastAPI(
-    title="MCP Text Generator",
+    title="BA Creation of internet entries with MCP Server",
     description="Dashboard for viewing generated university project texts",
     version="0.1.0",
 )
