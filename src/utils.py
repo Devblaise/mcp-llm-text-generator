@@ -1,9 +1,16 @@
+# keywords are extracted from these columns
+_KEYWORD_COLS = ("Kooperationspartner", "Organisationseinheiten der Projektleitungen")
+
 def extract_keywords(project: dict) -> list[str]:
-    """Extract keywords from Kooperationspartner column."""
-    val = project.get("Kooperationspartner")
-    if val and str(val).strip() and str(val).lower() != "nan":
-        return [str(val).strip()]
-    return []
+    """Extract keywords from Kooperationspartner and Organisationseinheiten der Projektleitungen columns."""
+    parts = [
+        kw.strip()
+        for col in _KEYWORD_COLS
+        if (val := project.get(col)) and str(val).strip().lower() != "nan"
+        for kw in str(val).replace(";", ",").split(",")
+        if kw.strip()
+    ]
+    return list(dict.fromkeys(parts))  # deduplicate, preserve order
 
 
 def normalize_generated_entry(entry: dict) -> dict:
