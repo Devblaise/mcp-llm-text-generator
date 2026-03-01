@@ -48,11 +48,21 @@ def build_context(request: GenerateProjectTextInput) -> str:
 
     1. Project Page Description
       - Length: 400–500 words
-      - Structure with clear section headers:
-        • Motivation
-        • Research Goals
-        • Societal Relevance
-        • Expected Impact
+      - Structure with EXACTLY these section headers (using ### markdown):
+
+        For German (de):
+          ### Motivation
+          ### Forschungsziele
+          ### Gesellschaftliche Relevanz
+          ### Erwarteter Einfluss
+
+        For English (en):
+          ### Motivation
+          ### Research Goals
+          ### Societal Relevance
+          ### Expected Impact
+
+      - Use the EXACT headers above. Do NOT rename, reorder, or skip any section.
 
     2. Faculty Teaser
       - Length: 50–100 words
