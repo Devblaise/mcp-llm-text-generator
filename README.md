@@ -109,7 +109,10 @@ uv run mcp dev src/server.py
 This opens the MCP Inspector at `http://localhost:6274` where you can test the tools interactively.
 
 
-**With Docker (alternative — avoids OS/Windows compatibility issues that can occur with uv):**
+
+
+### With Docker 
+**(alternative — avoids OS/Windows compatibility issues that can occur with uv):**
 ```
 macOS: Install Docker Desktop for Mac — it runs a lightweight Linux VM behind the scenes.
 ```
