@@ -44,8 +44,14 @@ class GeneratedText(BaseModel):
     word_count: int = 0
    
 
+class TokenUsage(BaseModel):
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    total_tokens: int = 0
+
 class GenerateProjectTextOutput(BaseModel):
     project_page: dict[str, GeneratedText] = Field(..., description="Detailed project description for a public project page.")
     faculty_teaser: dict[str, GeneratedText] = Field(..., description="Short teaser text for a faculty overview page.") 
-    used_keywords: Optional[List[str]]= Field(..., description="Keywords that appear in the text.") 
+    used_keywords: Optional[List[str]]= Field(..., description="Keywords that appear in the text.")
+    token_usage: Optional[TokenUsage] = Field(None, description="LLM token consumption for this generation.") 
     warnings: Optional[List[str]] = Field(None, description="Notes about uncertainty or sparse input.")
