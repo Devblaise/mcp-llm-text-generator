@@ -158,7 +158,7 @@ Place reference texts as `.txt` files in `src/data/references/` named by the pro
 
 - **FastMCP** — MCP server framework
 - **OpenAI API** (GWDG endpoint) — Text generation
-- **Langcheck** — Semantic similarity, factual consistency and Rogur-L
+- **Langcheck** — Semantic similarity, factual consistency and Rogue-L
 - **FastAPI + Jinja2** — Results output data dashboard
 - **Pandas** — Excel data processing
 - **Pydantic** — Input/output validation
