@@ -131,14 +131,6 @@ In the MCP Inspector, call the `generate_project_text_from_project_id` tool with
 
 The project ID corresponds to the **Abkürzung** column in the Excel file. The lookup is case-insensitive.
 
-#### Run the output dashboard
-
-```bash
-docker run -p 8000:8000 --env-file .env creation-of-internet-entries-with-mcp-server
-```
-
-Opens at `http://localhost:8000`.
-
 ### View results in the dashboard
 
 - Side-by-side German/English generated texts
