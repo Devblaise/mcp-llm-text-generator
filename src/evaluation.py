@@ -1,4 +1,6 @@
 import logging
+import sys
+import contextlib
 import langcheck.metrics as metrics
 
 # -------------------------
@@ -31,23 +33,26 @@ def evaluate_generated_vs_reference(
 
     try:
 
-        # Semantic similarity (langcheck)
-        semantic_similarity = metrics.semantic_similarity(
-            generated_text,
-            human_reference_text
-        ).metric_values[0]
+        # Redirect stdout to stderr to prevent library warnings from
+        # corrupting the MCP JSON-RPC stream on stdout
+        with contextlib.redirect_stdout(sys.stderr):
+            # Semantic similarity (langcheck)
+            semantic_similarity = metrics.semantic_similarity(
+                generated_text,
+                human_reference_text
+            ).metric_values[0]
 
-        # Factual consistency (vs. human reference)
-        factual_consistency = metrics.factual_consistency(
-            generated_text,
-            human_reference_text
-        ).metric_values[0]
+            # Factual consistency (vs. human reference)
+            factual_consistency = metrics.factual_consistency(
+                generated_text,
+                human_reference_text
+            ).metric_values[0]
 
-        # ROUGE-L
-        rouge_l = metrics.rougeL(
-            generated_text,
-            human_reference_text
-        ).metric_values[0]
+            # ROUGE-L
+            rouge_l = metrics.rougeL(
+                generated_text,
+                human_reference_text
+            ).metric_values[0]
 
         return {
             "project_id": project_id,
