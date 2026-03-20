@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 model="qwen3-30b-a3b-instruct-2507"
-# model="openai-gpt-oss-120b"
+#model="openai-gpt-oss-120b"
 
 
 api_key=os.getenv("GWDG_API_KEY")

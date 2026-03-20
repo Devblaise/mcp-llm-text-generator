@@ -47,7 +47,7 @@ def build_context(request: GenerateProjectTextInput) -> str:
     Generate TWO texts:
 
     1. Project Page Description
-      - Length: 400–500 words
+      - Length: 300–400 words
       - Write as exactly 4 separate paragraphs — NO section headers or markdown headings.
       - Separate each paragraph with a blank line (\n\n).
       - Each paragraph covers one topic in order, without labelling it:
