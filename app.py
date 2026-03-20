@@ -8,7 +8,7 @@ import json
 
 # ─── Configuration ───────────────────────────────────────────
 
-OUTPUTS_DIR = Path(__file__).parent / "src" / "outputs-3"
+OUTPUTS_DIR = Path(__file__).parent / "src" / "outputs"
 REFERENCES_DIR = Path(__file__).parent / "src" / "data" / "references"
 
 app = FastAPI(
