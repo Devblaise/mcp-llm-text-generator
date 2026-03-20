@@ -50,7 +50,7 @@ This project provides two MCP tools:
 ### 1. Get the source code
 
 1. Go to the repository: https://github.com/Devblaise/Creation-of-internet-entries-with-MCP-Server
-2. Fork the repo or click **Code → Download ZIP**
+2. Fork and clone the repo or click **Code → Download ZIP**
 3. Extract the ZIP to a folder if downloaded
 
 ### 2. Install UV
