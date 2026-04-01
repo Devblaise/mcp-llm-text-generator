@@ -68,7 +68,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 ### 3. Install dependencies
 
 ```bash
-cd "BA Creation of internet entries with MCP Server"
+cd "Creation of internet entries with MCP Server"
 uv venv
 ```
 
